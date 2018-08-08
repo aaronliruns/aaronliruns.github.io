@@ -14,10 +14,6 @@
 
 <p>For implementation status, see the <a href="http://www.w3.org/2009/dap/wiki/ImplementationStatus#HTML_Media_Capture">wiki</a>.
 
-<h2>Test for @capture and @accept existence</h2>
-<p>Testing for attribute existence only.</p>
-<p id="supported"></p>
-
 <h2>Example 1</h2>
 <p>To take a picture using the device's local still image capture device, such as a camera, and upload the picture taken using an HTML form:</p>
 <pre>
@@ -39,15 +35,24 @@
 </form>
 
 <h2>Example 2.5</h2>
-<p>Or alternatively, to pick up pdf from cloud drive. Due to a sarari bug, this may allow images to be picked up also</p>
+<p>Or alternatively, to pick up pdf from cloud drive. Due to a Safari bug, this may allow all to be picked up also on ios</p>
 <pre>
-  &lt;input type="file" accept="image/*|video/*" capture&gt;
+  &lt;input type="file" accept="application/pdf" capture&gt;
 </pre>
 <form action="#" method="post" enctype="multipart/form-data">
   <input type="file" name="pdf" accept="application/pdf" capture>
   <input type="submit" value="Upload">
 </form>
 
+<h2>Example 2.6</h2>
+<p>Or alternatively, to pick up either pdf from cloud drive or to take a picture from camera. Due to a Safari bug, this may allow all to be picked up also on ios</p>
+<pre>
+  &lt;input type="file" accept="image/jpeg, application/pdf" capture&gt;
+</pre>
+<form action="#" method="post" enctype="multipart/form-data">
+  <input type="file" name="jpeg_pdf" accept="image/jpeg, application/pdf" capture>
+  <input type="submit" value="Upload">
+</form>
 
 <h2>Example 3</h2>
 <p>Or alternatively, to capture audio using the device's local microphone:</p>
