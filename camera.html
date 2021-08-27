@@ -9,25 +9,28 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/main.css">
-
-  <script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#blah')
-                    .attr('src', e.target.result);
-            };
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-  </script>
+  <link rel="stylesheet" href="https://fengyuanchen.github.io/jquery-cropper/css/main.css">
 </head>
 <body>
 
+  <!-- Header -->
+  <header class="navbar navbar-light navbar-expand-md">
+    <div class="container">
+      <a class="navbar-brand" href="./">jquery-cropper</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbar-collapse" role="navigation">
+        <nav class="nav navbar-nav">
+          <a class="nav-link" href="https://github.com/fengyuanchen/jquery-cropper/blob/master/README.md" data-toggle="tooltip" title="View the documentation">Docs</a>
+          <a class="nav-link" href="https://github.com/fengyuanchen/jquery-cropper" data-toggle="tooltip" title="View the GitHub project">GitHub</a>
+          <a class="nav-link" href="https://fengyuanchen.github.io/cropperjs" data-toggle="tooltip" title="JavaScript image cropper">Cropper.js</a>
+          <a class="nav-link" href="https://fengyuanchen.github.io/" data-toggle="tooltip" title="Explore more projects">Explore</a>
+          <a class="nav-link" href="https://chenfengyuan.com/" data-toggle="tooltip" title="About the author">About</a>
+        </nav>
+      </div>
+    </div>
+  </header>
 
   <!-- Content -->
   <div class="container">
@@ -35,7 +38,7 @@
       <div class="col-md-9">
         <!-- <h3>Demo:</h3> -->
         <div class="img-container">
-          <img id="blah" src="https://fengyuanchen.github.io/jquery-cropper/images/picture.jpg" alt="Picture">
+          <img id="image" src="https://www.hargaminyak.co/wp-content/uploads/2018/03/Harga-Denda-Hilang-IC-MyKad-Bayaran-min-300x180.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-md-3">
@@ -516,14 +519,14 @@
             </li>
           </ul>
         </div><!-- /.dropdown -->
-        <!--
+
         <a class="btn btn-success btn-block" data-toggle="tooltip" data-animation="false" href="https://fengyuanchen.github.io/cropperjs" title="JavaScript image cropper">Cropper.js</a>
-        -->
-        <input class="btn btn-success btn-block" type="file" accept="image/*" capture="environment" onchange="readURL(this);>
 
       </div><!-- /.docs-toggles -->
     </div>
   </div>
+
+
 
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
@@ -531,6 +534,6 @@
   <script src="https://fengyuanchen.github.io/shared/google-analytics.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/cropperjs/dist/cropper.js" crossorigin="anonymous"></script>
   <script src="https://fengyuanchen.github.io/jquery-cropper/js/jquery-cropper.js"></script>
-  <script src="js/main.js"></script>
+  <script src="https://fengyuanchen.github.io/jquery-cropper/js/main.js"></script>
 </body>
 </html>
