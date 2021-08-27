@@ -6,14 +6,31 @@
   <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+  <script src="cropper.js"></script><!-- Cropper.js is required -->
+  <link  href="cropper.css" rel="stylesheet">
+  <script src="jquery-cropper.js"></script>
+  <script>
+      var $image = $('#image');
+        $image.cropper({
+        aspectRatio: 16 / 9,
+        crop: function(event) {
+            console.log(event.detail.x);
+            console.log(event.detail.y);
+            console.log(event.detail.width);
+            console.log(event.detail.height);
+            console.log(event.detail.rotate);
+            console.log(event.detail.scaleX);
+            console.log(event.detail.scaleY);
+        }
+        });
+    // Get the Cropper.js instance after initialized
+    var cropper = $image.data('cropper');
+  </script>
   <meta charset=utf-8 />
-  <title>JS Bin</title>
-  <!--[if IE]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
   <style>
-    article, aside, figure, footer, header, hgroup, 
-    menu, nav, section { display: block; }
+    img {
+    max-width: 100%; /* This rule is very important, please do not ignore this! */
+    }
   </style>
   <script>
     function readURL(input) {
@@ -22,9 +39,7 @@
 
             reader.onload = function (e) {
                 $('#blah')
-                    .attr('src', e.target.result)
-                    .width(768)
-                    .height(1024);
+                    .attr('src', e.target.result);
             };
 
             reader.readAsDataURL(input.files[0]);
@@ -34,6 +49,7 @@
 </head>
 <body>
     <input type="file" accept="image/*" capture="environment" onchange="readURL(this);>
+    <br>
     <img id="blah" src="#" alt="your image" />
 </body>
 </html>
