@@ -10,6 +10,21 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css" crossorigin="anonymous">
   <link rel="stylesheet" href="css/main.css">
+
+  <script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+  </script>
 </head>
 <body>
 
@@ -20,7 +35,7 @@
       <div class="col-md-9">
         <!-- <h3>Demo:</h3> -->
         <div class="img-container">
-          <img id="image" src="https://fengyuanchen.github.io/jquery-cropper/images/picture.jpg" alt="Picture">
+          <img id="blah" src="https://fengyuanchen.github.io/jquery-cropper/images/picture.jpg" alt="Picture">
         </div>
       </div>
       <div class="col-md-3">
@@ -501,8 +516,10 @@
             </li>
           </ul>
         </div><!-- /.dropdown -->
-
+        <!--
         <a class="btn btn-success btn-block" data-toggle="tooltip" data-animation="false" href="https://fengyuanchen.github.io/cropperjs" title="JavaScript image cropper">Cropper.js</a>
+        -->
+        <input class="btn btn-success btn-block" type="file" accept="image/*" capture="environment" onchange="readURL(this);>
 
       </div><!-- /.docs-toggles -->
     </div>
