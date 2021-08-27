@@ -15,7 +15,7 @@
     article, aside, figure, footer, header, hgroup, 
     menu, nav, section { display: block; }
   </style>
-  <scirpt>
+  <script>
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
@@ -30,7 +30,7 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-  </scirpt>
+  </script>
 </head>
 <body>
     <input type="file" accept="image/*" capture="environment" onchange="readURL(this);>
