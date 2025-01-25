@@ -27,7 +27,7 @@
     /**
      * Initializes the FingerprintJS library and retrieves the fingerprint.
      *
-     * @returns {Promise<{ visitorId: string, components: object }>} The fingerprint data, including visitorId and components.
+     * @returns {Promise<{ visitorId: string, components: object, userAgent: string }>} The fingerprint data, including visitorId, components, and userAgent.
      */
     function getFingerprint() {
         return loadFingerprintJS().then(FingerprintJS => {
@@ -35,6 +35,7 @@
                 return {
                     visitorId: result.visitorId,
                     components: result.components,
+                    userAgent: navigator.userAgent,
                 };
             });
         });
