@@ -1,173 +1,46 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>HTML Media Capture Examples</title>
-  <link rel="stylesheet" href="base.css">
-  <!-- Matomo -->
-  <script>
-    var _paq = window._paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//analytics.lspeedl.com/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '3']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-<!-- End Matomo Code -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fingerprint Viewer</title>
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fingerprint SDK -->
+  <script src="fingerprint-sdk.js"></script>
 </head>
-<body>
-<h1>HTML Media Capture Examples</h1>
 
-<p>These examples have been adapted from the <a href="http://dev.w3.org/2009/dap/camera/#examples">Examples</a> section of the <a href="http://dev.w3.org/2009/dap/camera/">HTML Media Capture spec</a>.</p>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
+  <div class="container mx-auto px-4">
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full text-center">
+      <h1 class="text-2xl font-bold mb-4">Your Browser Fingerprint</h1>
 
-<p>The examples demonstrate how to give hints that it is preferred for the user to capture media of a specific MIME type using the media capture capabilities of the hosting device. Both a simple declarative example using an HTML form, as well as a more advanced example including scripting, are presented.<p>
+      <div id="visitorIdContainer" class="text-3xl font-semibold text-blue-600 mb-6">
+        Visitor ID: <span id="visitorId">Loading...</span>
+      </div>
 
-<p>For implementation status, see the <a href="http://www.w3.org/2009/dap/wiki/ImplementationStatus#HTML_Media_Capture">wiki</a>.
+      <div id="componentsContainer" class="bg-gray-50 p-4 rounded-lg shadow-inner overflow-auto max-h-96 text-left">
+        <h2 class="text-xl font-semibold mb-2">Fingerprint Components:</h2>
+        <pre id="components" class="text-sm bg-gray-100 p-2 rounded-lg">Loading...</pre>
+      </div>
+    </div>
+  </div>
 
-<h2>Example 1</h2>
-<p>To take a picture using the device's local still image capture device, such as a camera, and upload the picture taken using an HTML form:</p>
-<pre>
-  &lt;input type="file" accept="image/*" capture&gt;
-</pre>
-<form action="#" method="post" enctype="multipart/form-data">
-  <input type="file" name="image" accept="image/*" capture>
-  <input type="submit" value="Upload">
-</form>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      FP.init(); // Initialize FingerprintJS SDK
 
-<h2>Example 2</h2>
-<p>Or alternatively, to capture video using the device's local video camera:</p>
-<pre>
-  &lt;input type="file" accept="video/*" capture&gt;
-</pre>
-<form action="#" method="post" enctype="multipart/form-data">
-  <input type="file" name="video" accept="video/*" capture>
-  <input type="submit" value="Upload">
-</form>
-
-<h2>Example 2.5</h2>
-<p>Or alternatively, to pick up pdf from cloud drive. Due to a Safari bug, this may allow all to be picked up also on ios</p>
-<pre>
-  &lt;input type="file" accept="application/pdf"&gt;
-</pre>
-<form action="#" method="post" enctype="multipart/form-data">
-  <input type="file" name="pdf" accept="application/pdf">
-  <input type="submit" value="Upload">
-</form>
-
-<h2>Example 2.6</h2>
-<p>Or alternatively, to pick up either pdf from cloud drive or to take a picture from camera. Due to a Safari bug, this may allow all to be picked up also on ios</p>
-<pre>
-  &lt;input type="file" accept="image/jpeg application/pdf"&gt;
-</pre>
-<form action="#" method="post" enctype="multipart/form-data">
-  <input type="file" name="jpeg_pdf" accept="image/jpeg application/pdf">
-  <input type="submit" value="Upload">
-</form>
-
-<h2>Example 3</h2>
-<p>Or alternatively, to capture audio using the device's local microphone:</p>
-<pre>
-  &lt;input type="file" accept="audio/*" capture&gt;
-</pre>
-<form action="#" method="post" enctype="multipart/form-data">
-  <input type="file" name="audio" accept="audio/*" capture>
-  <input type="submit" value="Upload">
-</form>
-
-<h2>Examples 4-7</h2>
-<p>For more advanced use cases, specify the capture attribute in markup and handle the file upload in script via XMLHttpRequest:</p>
-<pre>&lt;input type="file" accept="image/*" capture&gt;</pre>
-<input id="example4" type="file" accept="image/*" capture>
-
-<h2>Examples without @capture</h2>
-
-<pre>&lt;input type="file" accept="image/*"&gt;</pre>
-<input type="file" accept="image/*">
-
-<pre>&lt;input type="file"&gt;</pre>
-<input type="file">
-
-<h2>@capture and @download</h2>
-<p>See <a href="capture-and-download.html">capture-and-download.html</a>.</p>
-
-<script>
-
-// test for @capture existence
-
-function supported(attribute) {
-  var i = document.createElement('input');
-  i.setAttribute(attribute, true);
-  return !!i[attribute];
-}
-
-document.querySelector('#supported').innerHTML =
-  'It appears <strong>@capture is ' + (supported('capture') ? 'supported' : 'not supported') +
-  '</strong> and <strong>@accept is ' + (supported('accept') ? 'supported' : 'not supported') + '</strong>.';
-
-// examples from the spec
-
-//var input = document.querySelector('input[type=file]');
-var input = document.querySelector('#example4');
-
-input.onchange = function () {
-  var file = input.files[0];
-  
-  // upload(file);
-  drawOnCanvas(file);
-  displayAsImage(file);
-};
-
-function upload(file) {
-  var form = new FormData(),
-      xhr = new XMLHttpRequest();
-  
-  form.append('image', file);
-  xhr.open('post', 'server.php', true);
-  xhr.send(form);
-}
-
-function drawOnCanvas(file) {
-  var reader = new FileReader(),
-      c = document.createElement('canvas');
-
-  document.body.appendChild(c);
-
-  reader.onload = function (e) {
-    var dataURL = e.target.result,
-        c = document.querySelector('canvas'),
-        ctx = c.getContext('2d'),
-        img = new Image();
-        
-    img.onload = function() {
-      c.width = img.width;
-      c.height = img.height;
-      ctx.drawImage(img, 0, 0);
-    };
-    
-    img.src = dataURL;
-  };
-  
-  reader.readAsDataURL(file);
-}
-
-function displayAsImage(file) {
-  var imgURL = URL.createObjectURL(file),
-      img = document.createElement('img');
-  
-  img.onload = function() {
-    URL.revokeObjectURL(imgURL);
-  };
-  
-  img.src = imgURL;
-  document.body.appendChild(img);
-}
-
-</script>
-<div id="footer">by <a href="http://twitter.com/anssik">@anssik</a></div>
+      // Display results in the UI
+      getFingerprint().then(({ visitorId, components }) => {
+        document.getElementById('visitorId').textContent = visitorId;
+        document.getElementById('components').textContent = JSON.stringify(components, null, 2);
+      }).catch(error => {
+        document.getElementById('visitorId').textContent = 'Error fetching fingerprint';
+        document.getElementById('components').textContent = error.message;
+      });
+    });
+  </script>
 </body>
+
 </html>
