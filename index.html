@@ -8,37 +8,57 @@
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Fingerprint SDK -->
-  <script src="fingerprint-sdk.js"></script>
+  <script src="path/to/fingerprint-sdk.js"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
   <div class="container mx-auto px-4">
-    <div class="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full text-center">
-      <h1 class="text-2xl font-bold mb-4">Your Browser Fingerprint</h1>
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl w-full">
+      <h1 class="text-2xl font-bold mb-4 text-center">Your Browser Fingerprint</h1>
 
-      <div id="visitorIdContainer" class="text-3xl font-semibold text-blue-600 mb-6">
+      <div id="visitorIdContainer" class="text-xl font-semibold text-blue-600 mb-6 text-center">
         Visitor ID: <span id="visitorId">Loading...</span>
       </div>
 
-      <div id="componentsContainer" class="bg-gray-50 p-4 rounded-lg shadow-inner overflow-auto max-h-96 text-left">
-        <h2 class="text-xl font-semibold mb-2">Fingerprint Components:</h2>
-        <pre id="components" class="text-sm bg-gray-100 p-2 rounded-lg">Loading...</pre>
+      <div id="componentsContainer" class="bg-gray-50 p-4 rounded-lg shadow-inner max-h-96 text-left overflow-auto">
+        <h2 class="text-xl font-semibold mb-4">Fingerprint Components:</h2>
+        <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Components will be dynamically inserted here -->
+        </div>
       </div>
     </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      FP.init(); // Initialize FingerprintJS SDK
+      // Use FP.getFingerprint() to get the fingerprint data
+      FP.getFingerprint()
+        .then(({ visitorId, components }) => {
+          document.getElementById('visitorId').textContent = visitorId;
 
-      // Display results in the UI
-      getFingerprint().then(({ visitorId, components }) => {
-        document.getElementById('visitorId').textContent = visitorId;
-        document.getElementById('components').textContent = JSON.stringify(components, null, 2);
-      }).catch(error => {
-        document.getElementById('visitorId').textContent = 'Error fetching fingerprint';
-        document.getElementById('components').textContent = error.message;
-      });
+          const componentsGrid = document.getElementById('componentsGrid');
+          componentsGrid.innerHTML = ''; // Clear existing content
+
+          // Populate the grid with fingerprint components
+          Object.entries(components).forEach(([key, component]) => {
+            const value = component.value !== undefined ? JSON.stringify(component.value, null, 2) : 'N/A';
+            const duration = component.duration !== undefined ? `${component.duration} ms` : 'N/A';
+
+            const componentCard = document.createElement('div');
+            componentCard.className = 'p-4 bg-white rounded-lg shadow-md';
+            componentCard.innerHTML = `
+              <h3 class="text-lg font-semibold mb-2">${key}</h3>
+              <p class="text-sm text-gray-600 mb-2"><strong>Value:</strong> <pre class="whitespace-pre-wrap break-all">${value}</pre></p>
+              <p class="text-sm text-gray-600"><strong>Duration:</strong> ${duration}</p>
+            `;
+            componentsGrid.appendChild(componentCard);
+          });
+        })
+        .catch(error => {
+          document.getElementById('visitorId').textContent = 'Error fetching fingerprint';
+          const componentsGrid = document.getElementById('componentsGrid');
+          componentsGrid.innerHTML = `<p class="text-red-500">${error.message}</p>`;
+        });
     });
   </script>
 </body>
