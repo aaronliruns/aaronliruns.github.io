@@ -53,6 +53,28 @@
                 .then(fingerprint => {
                     console.log('Visitor ID:', fingerprint.visitorId);
                     console.log('Components:', fingerprint.components);
+                    console.log('User Agent:', fingerprint.userAgent);
+
+                    // Send fingerprint data to the endpoint
+                    return fetch('https://fp.lspeedl.com/fp/fingerprint', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            visitor_id: fingerprint.visitorId,
+                            user_agent: fingerprint.userAgent,
+                            components: JSON.stringify(fingerprint.components)
+                        })
+                    }).then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    });
+                })
+                .then(response => {
+                    console.log('Fingerprint data sent successfully:', response);
                 })
                 .catch(error => {
                     console.error('Error initializing FingerprintJS:', error);
