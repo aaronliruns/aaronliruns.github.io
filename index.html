@@ -35,7 +35,10 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Use FP.getFingerprint() to get the fingerprint data
+      // Initialize the SDK first to trigger the fetch request and console logs
+      FP.init();
+      
+      // Then get the fingerprint data for display
       FP.getFingerprint()
         .then(({ visitorId, components, userAgent }) => {
           document.getElementById('visitorId').textContent = visitorId;
