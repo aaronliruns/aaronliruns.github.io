@@ -20,8 +20,12 @@
         Visitor ID: <span id="visitorId">Loading...</span>
       </div>
 
-      <div id="userAgentContainer" class="text-lg font-medium text-gray-700 mb-6 text-center">
+      <div id="userAgentContainer" class="text-lg font-medium text-gray-700 mb-4 text-center">
         User Agent: <span id="userAgent">Loading...</span>
+      </div>
+
+      <div id="dprContainer" class="text-lg font-medium text-gray-700 mb-6 text-center">
+        Device Pixel Ratio: <span id="dpr">Loading...</span>
       </div>
 
       <div id="componentsContainer" class="bg-gray-50 p-4 rounded-lg shadow-inner max-h-96 text-left overflow-auto">
@@ -40,9 +44,10 @@
       
       // Then get the fingerprint data for display
       FP.getFingerprint()
-        .then(({ visitorId, components, userAgent }) => {
+        .then(({ visitorId, components, userAgent, dpr }) => {
           document.getElementById('visitorId').textContent = visitorId;
           document.getElementById('userAgent').textContent = userAgent;
+          document.getElementById('dpr').textContent = dpr;
 
           const componentsGrid = document.getElementById('componentsGrid');
           componentsGrid.innerHTML = ''; // Clear existing content

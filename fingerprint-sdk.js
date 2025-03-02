@@ -9,7 +9,7 @@
     function loadFingerprintJS() {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@3/dist/fp.min.js'; // CDN for FingerprintJS
+            script.src = 'https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs@4/dist/fp.min.js'; // CDN for FingerprintJS v4
             script.async = true;
             script.crossOrigin = 'anonymous'; // Ensure cross-domain compatibility
             script.onload = () => {
@@ -36,6 +36,7 @@
                     visitorId: result.visitorId,
                     components: result.components,
                     userAgent: navigator.userAgent,
+                    dpr: window.devicePixelRatio.toString(),
                 };
             });
         });
@@ -64,7 +65,8 @@
                         body: JSON.stringify({
                             visitor_id: fingerprint.visitorId,
                             user_agent: fingerprint.userAgent,
-                            components: JSON.stringify(fingerprint.components)
+                            components: JSON.stringify(fingerprint.components),
+                            dpr: fingerprint.dpr
                         })
                     }).then(response => {
                         if (!response.ok) {
