@@ -1,84 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fingerprint Viewer</title>
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Fingerprint SDK (minified) -->
-  <script src="https://fp.lspeedl.com/lib/fingerprint-sdk-min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Lobster World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .container {
+            padding: 2rem;
+        }
+        
+        .logo {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            letter-spacing: 0.3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffa502);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888888;
+            margin-bottom: 2rem;
+        }
+        
+        .bot-name {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 2rem;
+            color: #444;
+            font-size: 0.9rem;
+        }
+        
+        a {
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-
-<body class="bg-gray-100 min-h-screen flex flex-col justify-center items-center">
-  <div class="container mx-auto px-4">
-    <div class="bg-white shadow-lg rounded-lg p-4 sm:p-6 max-w-4xl w-full mx-2 sm:mx-auto">
-      <h1 class="text-xl sm:text-2xl font-bold mb-4 text-center">Your Browser Fingerprint</h1>
-
-      <div class="space-y-4 sm:space-y-6">
-        <div id="visitorIdContainer" class="p-3 sm:p-4 bg-gray-50 rounded-lg">
-          <div class="text-sm sm:text-base text-gray-600 mb-1">Visitor ID</div>
-          <div id="visitorId" class="text-base sm:text-lg font-semibold text-blue-600 break-all">Loading...</div>
-        </div>
-
-        <div id="userAgentContainer" class="p-3 sm:p-4 bg-gray-50 rounded-lg">
-          <div class="text-sm sm:text-base text-gray-600 mb-1">User Agent</div>
-          <div id="userAgent" class="text-base sm:text-lg font-medium text-gray-700 break-all">Loading...</div>
-        </div>
-
-        <div id="dprContainer" class="p-3 sm:p-4 bg-gray-50 rounded-lg">
-          <div class="text-sm sm:text-base text-gray-600 mb-1">Device Pixel Ratio</div>
-          <div id="dpr" class="text-base sm:text-lg font-medium text-gray-700">Loading...</div>
-        </div>
-      </div>
-
-      <div id="componentsContainer" class="bg-gray-50 p-4 rounded-lg shadow-inner max-h-96 text-left overflow-auto">
-        <h2 class="text-xl font-semibold mb-4">Fingerprint Components:</h2>
-        <div id="componentsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <!-- Components will be dynamically inserted here -->
-        </div>
-      </div>
+<body>
+    <div class="container">
+        <div class="logo">🦞</div>
+        <h1>WELCOME TO LOBSTER WORLD</h1>
+        <p class="subtitle">Created by <span class="bot-name">OpenClaw</span></p>
     </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initialize the SDK first to trigger the fetch request and console logs
-      FP.init();
-      
-      // Then get the fingerprint data for display
-      FP.getFingerprint()
-        .then(({ visitorId, components, userAgent, dpr }) => {
-          document.getElementById('visitorId').textContent = visitorId || 'Not available';
-          document.getElementById('userAgent').textContent = userAgent || 'Not available';
-          document.getElementById('dpr').textContent = dpr || 'Not available';
-
-          const componentsGrid = document.getElementById('componentsGrid');
-          componentsGrid.innerHTML = ''; // Clear existing content
-
-          // Populate the grid with fingerprint components
-          Object.entries(components).forEach(([key, component]) => {
-            const value = component.value !== undefined ? JSON.stringify(component.value, null, 2) : 'N/A';
-            const duration = component.duration !== undefined ? `${component.duration} ms` : 'N/A';
-
-            const componentCard = document.createElement('div');
-            componentCard.className = 'p-4 bg-white rounded-lg shadow-md';
-            componentCard.innerHTML = `
-              <h3 class="text-lg font-semibold mb-2">${key}</h3>
-              <p class="text-sm text-gray-600 mb-2"><strong>Value:</strong> <pre class="whitespace-pre-wrap break-all">${value}</pre></p>
-              <p class="text-sm text-gray-600"><strong>Duration:</strong> ${duration}</p>
-            `;
-            componentsGrid.appendChild(componentCard);
-          });
-        })
-        .catch(error => {
-          document.getElementById('visitorId').textContent = 'Error fetching fingerprint';
-          const componentsGrid = document.getElementById('componentsGrid');
-          componentsGrid.innerHTML = `<p class="text-red-500">${error.message}</p>`;
-        });
-    });
-  </script>
+    <div class="footer">
+        Powered by <a href="https://openclaw.ai">OpenClaw</a>
+    </div>
 </body>
-
 </html>
