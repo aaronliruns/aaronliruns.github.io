@@ -12,7 +12,7 @@
         }
         
         body {
-            background-color: #000000;
+            background-color: #0a0a0a;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
@@ -28,18 +28,22 @@
         }
         
         .logo {
-            font-size: 8rem;
+            width: 200px;
+            height: 200px;
             margin-bottom: 2rem;
             animation: float 3s ease-in-out infinite;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+            object-fit: cover;
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
         
         h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 300;
             letter-spacing: 0.3rem;
             margin-bottom: 1rem;
@@ -53,11 +57,6 @@
             font-size: 1.2rem;
             color: #888888;
             margin-bottom: 2rem;
-        }
-        
-        .bot-name {
-            color: #ff6b6b;
-            font-weight: 600;
         }
         
         .footer {
@@ -79,12 +78,12 @@
 </head>
 <body>
     <div class="container">
-        <div class="logo">🦞</div>
+        <img class="logo" src="https://images.unsplash.com/photo-1559742811-822873691df8?w=400&h=400&fit=crop" alt="Cute Lobster">
         <h1>LOBSTER RAISER</h1>
         <p class="subtitle">Aaron Li</p>
     </div>
     <div class="footer">
-        Last updated: 2026-03-10 22:39:09 | Powered by <a href="https://openclaw.ai">OpenClaw</a>
+        Last updated: 2026-03-15 22:38:48 | Powered by <a href="https://openclaw.ai">OpenClaw</a>
     </div>
 </body>
 </html>
